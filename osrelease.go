@@ -3,10 +3,18 @@ package osrelease
 import (
 	"errors"
 	"strings"
+	"io"
 )
 
 //const EtcOsRelease string = "/etc/os-release"
 //const UsrLibOsRelease string = "/usr/lib/os-release"
+
+// Read accepts an io.Reader pointing to an os-release
+// file, reads the contents, and returns a map of parsed
+// values
+func Read(src io.Reader) (map[string]string, error) {
+	return nil, errors.New("Not Implemented")
+}
 
 // Parse accepts the contents of an os-release file as
 // a string and returns a map containing the parsed values

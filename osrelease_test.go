@@ -2,7 +2,24 @@ package osrelease
 
 import (
 	"testing"
+	"bytes"
 )
+
+func TestRead(t *testing.T) {
+	content := `
+ID=linux`
+	file      := bytes.NewBuffer([]byte(content))
+	parsed, e := Read(file)
+	id        := parsed["ID"]
+
+	if (id != "linux") {
+		t.Error("Expected ID to be linux but got", id)
+	}
+
+	if (e != nil) {
+		t.Error("Expected nil error but got", e)
+	}
+}
 
 func TestParse(t *testing.T) {
 	content := `
