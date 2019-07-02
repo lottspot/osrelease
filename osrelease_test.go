@@ -24,7 +24,7 @@ NAME="Linux Distro"
 	}
 
 	if (name != "Linux Distro") {
-		t.Error("Expected value of NAME to bu Linux Distro but got", name)
+		t.Error("Expected value of NAME to be Linux Distro but got", name)
 	}
 
 	if (pretty != "") {
@@ -33,7 +33,7 @@ NAME="Linux Distro"
 
 }
 func TestParseLine(t *testing.T) {
-	valid := "ID=linux  "
+	valid := "ID=\"linux\"  "
 	invalid := "foobar"
 	comment := "  # Operator information"
 	empty := "   "

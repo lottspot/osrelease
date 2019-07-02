@@ -11,7 +11,16 @@ import (
 // Parse accepts the contents of an os-release file as
 // a string and returns a map containing the parsed values
 func Parse(contents string) (map[string]string, error) {
-	return nil, errors.New("Not Implemented")
+	parsed := make(map[string]string)
+	lines  := strings.Split(contents, "\n")
+	for i, line := range lines {
+		k, v, e := parseLine(line)
+		if (e != nil) {
+			return nil, errors.New("line " + string(i+1) + ": " + e.Error())
+		}
+		parsed[k] = v
+	}
+	return parsed, nil
 }
 
 // Accepts a string representing a single line of
@@ -36,5 +45,9 @@ func parseLine(line string) (string, string, error) {
 	if (len(parsed) != 2) {
 		return "", "", errors.New("parse: Error splitting line into key/value pair")
 	}
-	return parsed[0], parsed[1], nil
+
+	k := parsed[0]
+	v := strings.Trim(parsed[1], "'\"")
+
+	return k, v, nil
 }
