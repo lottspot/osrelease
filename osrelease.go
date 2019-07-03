@@ -93,7 +93,6 @@ func Parse(contents string) (map[string]string, error) {
 // returned.
 func parseLine(line string) (string, string, error) {
 	line = strings.Trim(line, " \t\n")
-	line = string(line)
 
 	// Skip parsing empty or comment lines
 	if (len(line) < 1 || line[0] == '#') {
