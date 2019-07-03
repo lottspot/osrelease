@@ -26,6 +26,7 @@ func Load() (map[string]string, error) {
 		}
 		return parsed, nil
 	}
+
 	return parsed, nil
 }
 
@@ -75,6 +76,7 @@ func Read(src io.Reader) (map[string]string, error) {
 func Parse(contents string) (map[string]string, error) {
 	parsed := make(map[string]string)
 	lines  := strings.Split(contents, "\n")
+
 	for i, line := range lines {
 		k, v, e := parseLine(line)
 		if (e != nil) {
@@ -82,6 +84,7 @@ func Parse(contents string) (map[string]string, error) {
 		}
 		parsed[k] = v
 	}
+
 	return parsed, nil
 }
 
@@ -98,7 +101,6 @@ func parseLine(line string) (string, string, error) {
 	if (len(line) < 1 || line[0] == '#') {
 		return "", "", nil
 	}
-
 
 	parsed := strings.SplitN(line, "=", 2)
 
