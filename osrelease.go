@@ -5,10 +5,47 @@ import (
 	"strings"
 	"io"
 	"bufio"
+	"os"
 )
 
-//const EtcOsRelease string = "/etc/os-release"
-//const UsrLibOsRelease string = "/usr/lib/os-release"
+// EtcOsRelease provides a path to the well known location /etc/os-release
+const EtcOsRelease string = "/etc/os-release"
+
+// UsrLibOsRelease provides a path to the well known location /usr/lib/os-release
+const UsrLibOsRelease string = "/usr/lib/os-release"
+
+// Load will attempt to automatically load and
+// parse os-release information from the two
+// well-known os-release locations
+func Load() (map[string]string, error) {
+	parsed, e := LoadPath(EtcOsRelease)
+	if (e != nil) {
+		parsed, e := LoadPath(UsrLibOsRelease)
+		if (e != nil) {
+			return nil, e
+		}
+		return parsed, nil
+	}
+	return parsed, nil
+}
+
+// LoadPath will open a specified path and pass the opened
+// file descriptor to the Read function
+func LoadPath(path string) (map[string]string, error) {
+
+	fd, eOpen := os.Open(path)
+	if (eOpen != nil) {
+		return nil, eOpen
+	}
+	defer fd.Close()
+
+	parsed, eRead := Read(fd)
+	if (eRead != nil) {
+		return nil, eRead
+	}
+
+	return parsed, nil
+}
 
 // Read accepts an io.Reader pointing to an os-release
 // file, reads the contents, and returns a map of parsed
