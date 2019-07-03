@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 	"io"
+	"bufio"
 )
 
 //const EtcOsRelease string = "/etc/os-release"
@@ -13,7 +14,23 @@ import (
 // file, reads the contents, and returns a map of parsed
 // values
 func Read(src io.Reader) (map[string]string, error) {
-	return nil, errors.New("Not Implemented")
+	scanner := bufio.NewScanner(src)
+	data    := ""
+
+	for scanner.Scan() {
+		data += scanner.Text()
+	}
+	eRead := scanner.Err()
+	if (eRead != nil) {
+		return nil, errors.New("read: " + eRead.Error())
+	}
+
+	parsed, eParse := Parse(data)
+	if (eParse != nil) {
+		return nil, eParse
+	}
+
+	return parsed, nil
 }
 
 // Parse accepts the contents of an os-release file as
